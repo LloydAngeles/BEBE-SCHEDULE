@@ -1,0 +1,327 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<title>My Class Schedule</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Baloo+2:wght@500;600;700;800&family=Quicksand:wght@400;500;600;700&display=swap" rel="stylesheet">
+<style>
+  :root{
+    --bg: #FFF3F7;
+    --pink-pale: #FFE1EC;
+    --pink-soft: #FFC3DA;
+    --pink-mid: #F98FBB;
+    --pink-deep: #E85D8A;
+    --pink-darker: #C43E6C;
+    --ink: #5B2A41;
+    --white: #FFFFFF;
+
+    --c-ge: #FBCFE8;
+    --c-tcc: #F9A8D4;
+    --c-abm: #F472B6;
+    --c-pe: #FDBBD3;
+    --c-nstp: #F06AA0;
+  }
+
+  *{ box-sizing: border-box; }
+
+  body{
+    margin:0;
+    background: var(--bg);
+    background-image:
+      radial-gradient(circle at 8% 12%, rgba(255,182,213,0.35) 0, transparent 40%),
+      radial-gradient(circle at 95% 88%, rgba(255,182,213,0.35) 0, transparent 40%);
+    font-family: 'Quicksand', sans-serif;
+    color: var(--ink);
+    padding: 28px 22px 40px;
+  }
+
+  .wrap{ max-width: 1100px; margin: 0 auto; }
+
+  /* header */
+  header{
+    text-align:center;
+    margin-bottom: 22px;
+    position: relative;
+  }
+  .ribbon{
+    display:inline-block;
+    background: linear-gradient(135deg, var(--pink-mid), var(--pink-deep));
+    color: white;
+    font-family:'Baloo 2', sans-serif;
+    font-weight: 700;
+    font-size: 13px;
+    letter-spacing: 2px;
+    padding: 6px 20px;
+    border-radius: 999px;
+    box-shadow: 0 4px 14px rgba(232,93,138,0.35);
+    text-transform: uppercase;
+  }
+  h1{
+    font-family: 'Baloo 2', sans-serif;
+    font-weight: 800;
+    font-size: 40px;
+    color: var(--pink-darker);
+    margin: 14px 0 4px;
+    text-shadow: 2px 2px 0 rgba(255,255,255,0.7);
+  }
+  h1 .heart{ color: var(--pink-deep); }
+  .subtitle{
+    font-weight: 600;
+    color: var(--ink);
+    opacity: 0.75;
+    font-size: 15px;
+    letter-spacing: 0.5px;
+  }
+
+  /* legend */
+  .legend{
+    display:flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    gap: 10px;
+    margin: 18px 0 26px;
+  }
+  .chip{
+    display:flex;
+    align-items:center;
+    gap:7px;
+    background: var(--white);
+    border-radius: 999px;
+    padding: 6px 14px;
+    font-size: 12.5px;
+    font-weight: 600;
+    box-shadow: 0 2px 8px rgba(196,62,108,0.12);
+  }
+  .dot{ width:11px; height:11px; border-radius:50%; display:inline-block; }
+
+  /* grid */
+  .board{
+    background: var(--white);
+    border-radius: 26px;
+    padding: 18px;
+    box-shadow: 0 12px 40px rgba(196,62,108,0.15);
+    position: relative;
+    overflow: hidden;
+  }
+  .board::before{
+    content:"";
+    position:absolute;
+    top:-40px; right:-40px;
+    width:140px; height:140px;
+    background: radial-gradient(circle, var(--pink-pale) 0%, transparent 70%);
+  }
+
+  .grid{
+    display:grid;
+    grid-template-columns: 64px repeat(5, 1fr);
+    position: relative;
+    z-index:1;
+  }
+
+  .day-head{
+    font-family:'Baloo 2', sans-serif;
+    font-weight: 700;
+    font-size: 16px;
+    text-align:center;
+    color: var(--white);
+    background: linear-gradient(160deg, var(--pink-mid), var(--pink-deep));
+    padding: 10px 4px;
+    border-radius: 14px;
+    margin: 0 4px 8px;
+  }
+  .corner{ }
+
+  .time-col{
+    display:flex;
+    flex-direction: column;
+  }
+  .time-label{
+    font-size: 10.5px;
+    font-weight: 700;
+    color: var(--pink-darker);
+    text-align:right;
+    padding-right: 6px;
+    opacity: 0.8;
+  }
+
+  .day-col{
+    position: relative;
+    border-left: 2px dashed var(--pink-pale);
+    margin: 0 4px;
+  }
+  .hour-line{
+    border-top: 1px solid #FBE4EE;
+    height: 34px;
+  }
+
+  .class-card{
+    position: absolute;
+    left: 3px; right: 3px;
+    border-radius: 12px;
+    padding: 7px 9px 8px;
+    color: var(--ink);
+    box-shadow: 0 4px 10px rgba(196,62,108,0.18);
+    overflow: hidden;
+    border: 1.5px solid rgba(255,255,255,0.6);
+  }
+  .class-card .code{
+    font-family:'Baloo 2', sans-serif;
+    font-weight: 700;
+    font-size: 12px;
+    display:block;
+  }
+  .class-card .title{
+    font-size: 11px;
+    font-weight: 600;
+    line-height: 1.25;
+    display:block;
+    margin-top: 1px;
+  }
+  .class-card .meta{
+    font-size: 10px;
+    font-weight: 600;
+    opacity: 0.75;
+    display:block;
+    margin-top: 3px;
+  }
+
+  .ge{ background: var(--c-ge); }
+  .tcc{ background: var(--c-tcc); }
+  .abm{ background: var(--c-abm); color:#4A1230; }
+  .pe{ background: var(--c-pe); }
+  .nstp{ background: var(--c-nstp); color:#4A1230; }
+
+  footer{
+    text-align:center;
+    margin-top: 22px;
+    font-size: 12px;
+    color: var(--pink-darker);
+    font-weight: 600;
+    opacity: 0.8;
+  }
+
+  @media (max-width: 820px){
+    .grid{ grid-template-columns: 46px repeat(5, 1fr); }
+    h1{ font-size: 28px; }
+    .day-head{ font-size: 12px; }
+    .class-card .title{ display:none; }
+  }
+</style>
+</head>
+<body>
+<div class="wrap">
+
+  <header>
+    <span class="ribbon">BS Tourism Management</span>
+    <h1><span class="heart">♡</span> My Class Schedule <span class="heart">♡</span></h1>
+    <div class="subtitle">First Year — First Semester &nbsp;•&nbsp; Section Non-ABM 1-1</div>
+  </header>
+
+  <div class="legend">
+    <span class="chip"><span class="dot" style="background:var(--c-ge)"></span>GE — General Education</span>
+    <span class="chip"><span class="dot" style="background:var(--c-tcc)"></span>TCC — Tourism Core</span>
+    <span class="chip"><span class="dot" style="background:var(--c-abm)"></span>ABM — Business Mgmt</span>
+    <span class="chip"><span class="dot" style="background:var(--c-pe)"></span>PE — Physical Education</span>
+    <span class="chip"><span class="dot" style="background:var(--c-nstp)"></span>NSTP — Civic Welfare</span>
+  </div>
+
+  <div class="board">
+    <div class="grid">
+      <div class="corner"></div>
+      <div class="day-head">MONDAY</div>
+      <div class="day-head">TUESDAY</div>
+      <div class="day-head">WEDNESDAY</div>
+      <div class="day-head">THURSDAY</div>
+      <div class="day-head">FRIDAY</div>
+
+      <!-- time column -->
+      <div class="time-col" id="timeCol"></div>
+
+      <!-- Monday -->
+      <div class="day-col" id="col-mon"></div>
+      <!-- Tuesday -->
+      <div class="day-col" id="col-tue"></div>
+      <!-- Wednesday -->
+      <div class="day-col" id="col-wed"></div>
+      <!-- Thursday -->
+      <div class="day-col" id="col-thu"></div>
+      <!-- Friday -->
+      <div class="day-col" id="col-fri"></div>
+    </div>
+  </div>
+
+  <footer>Made with ♡ — keep this cutie pinned to your wall!</footer>
+</div>
+
+<script>
+  const START_HOUR = 7;   // 7:00 AM
+  const END_HOUR = 18;    // 6:00 PM
+  const SLOT_MIN = 30;
+  const SLOT_HEIGHT = 34; // px, matches .hour-line height
+  const totalSlots = ((END_HOUR - START_HOUR) * 60) / SLOT_MIN;
+
+  function toMinutes(h, m){ return (h - START_HOUR) * 60 + m; }
+
+  function fmt(h, m){
+    const period = h >= 12 ? 'PM' : 'AM';
+    let hh = h % 12; if(hh === 0) hh = 12;
+    return hh + (m ? ':' + m.toString().padStart(2,'0') : ':00') + period;
+  }
+
+  // build time labels every hour
+  const timeCol = document.getElementById('timeCol');
+  for(let h = START_HOUR; h <= END_HOUR; h++){
+    const div = document.createElement('div');
+    div.className = 'time-label';
+    div.style.height = SLOT_HEIGHT * 2 + 'px';
+    div.textContent = fmt(h, 0);
+    timeCol.appendChild(div);
+  }
+
+  // build hour-lines background for each day column
+  const dayCols = ['col-mon','col-tue','col-wed','col-thu','col-fri'].map(id => document.getElementById(id));
+  dayCols.forEach(col => {
+    for(let i = 0; i < totalSlots; i++){
+      const line = document.createElement('div');
+      line.className = 'hour-line';
+      col.appendChild(line);
+    }
+    col.style.height = totalSlots * SLOT_HEIGHT + 'px';
+  });
+
+  function addCard(colId, cls, code, title, startH, startM, endH, endM, room, days){
+    const col = document.getElementById(colId);
+    const top = (toMinutes(startH, startM) / SLOT_MIN) * SLOT_HEIGHT;
+    const height = ((toMinutes(endH, endM) - toMinutes(startH, startM)) / SLOT_MIN) * SLOT_HEIGHT;
+    const card = document.createElement('div');
+    card.className = 'class-card ' + cls;
+    card.style.top = top + 'px';
+    card.style.height = (height - 4) + 'px';
+    card.innerHTML = `<span class="code">${code}</span><span class="title">${title}</span><span class="meta">${fmt(startH,startM)}–${fmt(endH,endM)} • Rm ${room}</span>`;
+    col.appendChild(card);
+  }
+
+  // Monday
+  addCard('col-mon','ge','GE113','Math in the Modern World', 10,0, 11,0, 'ADM');
+  addCard('col-mon','ge','GE112','Readings in PH History', 11,0, 12,0, 'ADM');
+
+  // Tuesday
+  addCard('col-tue','ge','GE113','Math in the Modern World', 8,0, 10,0, '403');
+  addCard('col-tue','tcc','TCC102','Risk Mgmt: Safety & Sanitation', 10,30, 13,30, '403');
+  addCard('col-tue','nstp','NSTP111','Civic Welfare Training 1', 15,0, 18,0, '403');
+
+  // Wednesday
+  addCard('col-wed','tcc','TCC105','Macro Perspective of Tourism', 7,0, 10,0, '406*');
+  addCard('col-wed','ge','GE112','Readings in PH History', 12,30, 14,30, '405');
+
+  // Thursday
+  addCard('col-thu','pe','PE111','PATHFIT 1: Movement Competency', 8,0, 10,0, 'GYM');
+  addCard('col-thu','abm','mABM102','Organization Management', 11,0, 14,0, '406*');
+
+  // Friday
+  addCard('col-fri','abm','mABM101','Fundamentals of Accounting', 10,30, 13,30, '401');
+  addCard('col-fri','ge','GE115','Purposive Communication', 14,0, 17,0, '401');
+</script>
+</body>
+</html>
